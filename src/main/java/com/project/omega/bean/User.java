@@ -9,10 +9,10 @@ import javax.persistence.GenerationType;
 
 @Builder
 @Entity
-public class User {
+public class User {    //must be same name as corresponding table in DB
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO) //these names should be the same as column names as in table in DB
     private String id;
     private String email;
     private String password;
