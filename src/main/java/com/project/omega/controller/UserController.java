@@ -1,7 +1,10 @@
 package com.project.omega.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.omega.bean.User;
 import com.project.omega.exceptions.DuplicateUserException;
+import com.project.omega.exceptions.NoRecordsFoundException;
+import com.project.omega.exceptions.UserNotFoundException;
 import com.project.omega.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,47 +14,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping(value = "/user")
 public class UserController {
-
     @Autowired
     UserService userService;
 
-    @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) throws DuplicateUserException {
-        userService.createUser(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    private ObjectMapper mapper = new ObjectMapper();
+
+    @PostMapping(value = "/create", headers = "Accept=application/json")
+    public ResponseEntity createUser(@RequestBody User user) throws DuplicateUserException {
+        User newUser = userService.createUser(user);
+        return new ResponseEntity(newUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get")
-    public List<User> getUsers() {
-        return userService.getAllUsers();
+    @GetMapping(value = "/get")
+    public ResponseEntity getUsers() throws NoRecordsFoundException {
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity(users, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getById(@PathVariable String id) {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity getById(@PathVariable(value = "id") Long id) throws UserNotFoundException {
         User user = userService.getUserById(id);
-        if(user == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
-        }
-        return ResponseEntity.ok(user);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable String id) {
-        boolean deleted = userService.deleteUserById(id);
-        if(deleted) {
-            return ResponseEntity.status(HttpStatus.OK).body("User deleted");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist");
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteById(@PathVariable(value = "id") Long id) throws UserNotFoundException {
+        User user = userService.deleteUserById(id);
+        return new ResponseEntity(user, HttpStatus.I_AM_A_TEAPOT);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity updateUser(@RequestBody User user) {
-        boolean updated = userService.updateUser(user);
-        if(updated) {
-            return ResponseEntity.status(HttpStatus.OK).body("User updated");
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User doesn't exist");
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity updateById(@PathVariable(value = "id") Long id, @RequestBody User update) throws Exception {
+        User user = userService.updateUserById(id, update);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 }

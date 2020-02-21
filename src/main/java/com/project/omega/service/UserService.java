@@ -1,19 +1,20 @@
 package com.project.omega.service;
 
-import com.project.omega.exceptions.DuplicateUserException;
 import com.project.omega.bean.User;
+import com.project.omega.exceptions.DuplicateUserException;
+import com.project.omega.exceptions.NoRecordsFoundException;
+import com.project.omega.exceptions.UserNotFoundException;
 
 import java.util.List;
 
 public interface UserService {
+    User createUser(User user) throws DuplicateUserException;
 
-    void createUser(User user) throws DuplicateUserException;
+    List<User> getAllUsers() throws NoRecordsFoundException;
 
-    List<User> getAllUsers();
+    User getUserById(Long id) throws UserNotFoundException;
 
-    User getUserById(String id);
+    User deleteUserById(Long id) throws UserNotFoundException;
 
-    boolean deleteUserById(String id);
-
-    boolean updateUser(User user);
+    User updateUserById(Long id, User update) throws UserNotFoundException, Exception;
 }
