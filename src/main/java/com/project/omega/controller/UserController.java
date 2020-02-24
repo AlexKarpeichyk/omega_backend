@@ -46,7 +46,8 @@ public class UserController {
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity updateById(@PathVariable(value = "id") Long id, @RequestBody User update) throws Exception {
+    public ResponseEntity updateById(@PathVariable(value = "id") Long id,
+                                     @RequestBody User update) throws Exception {
         User user = userService.updateUserById(id, update);
         return new ResponseEntity(user, HttpStatus.OK);
     }
