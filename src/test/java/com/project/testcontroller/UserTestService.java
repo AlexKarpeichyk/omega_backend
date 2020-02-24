@@ -163,25 +163,24 @@ public class UserTestService extends OmegaApplicationTests {
         Mockito.verify(userRepository, Mockito.times(1)).deleteById(id_1);
     }
 
-//    @Test
-//    @DisplayName("Test for updating user details")
-//    public void updateUser_Test() throws Exception {
-//        User user_one = new User.UserBuilder()
-//                .setId(id_1)
-//                .setEmail("a@a.com")
-//                .setPassword("password")
-//                .setRole(RoleEnum.TEST_ROLE)
-//                .build();
-//        User user_detail = new User.UserBuilder()
-//                .setId(id_1)
-//                .setEmail("b@b.org")
-//                .setPassword("newpassword")
-//                .setRole(RoleEnum.ADMIN)
-//                .build();
-//        Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(true);
-//        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user_detail);
-//        user_detail.setId(null);
-//        Assert.assertEquals(id_1, userService.updateUserById(id_1, user_detail));
-//
-//    }
+    @Test
+    @DisplayName("Test for updating user details")
+    public void updateUser_Test() throws Exception {
+        User user_one = new User.UserBuilder()
+                .setId(id_1)
+                .setEmail("a@a.com")
+                .setPassword("password")
+                .setRole(RoleEnum.TEST_ROLE)
+                .build();
+        User user_detail = new User.UserBuilder()
+                .setId(id_1)
+                .setEmail("b@b.org")
+                .setPassword("newpassword")
+                .setRole(RoleEnum.ADMIN)
+                .build();
+        Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(true);
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user_detail);
+        user_detail.setId(null);
+        Assert.assertEquals(id_1, userService.updateUserById(id_1, user_detail).getId());
+    }
 }
