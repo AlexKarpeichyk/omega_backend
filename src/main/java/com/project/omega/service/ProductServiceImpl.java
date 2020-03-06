@@ -1,6 +1,5 @@
 package com.project.omega.service;
 
-import com.project.omega.bean.Industry;
 import com.project.omega.bean.Product;
 import com.project.omega.exceptions.NoRecordsFoundException;
 
@@ -67,7 +66,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     public List<Product> getProductsBySearchQuery(String name) throws NoRecordsFoundException {
-        List<Product> products = productRepository.findByNameLike(name);
+        List<Product> products = productRepository.findByNameContaining(name);
         if(products.isEmpty()) {
             throw new NoRecordsFoundException(Constant.ERROR_NO_PRODUCTS);
         }
