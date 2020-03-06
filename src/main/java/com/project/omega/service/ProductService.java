@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductService {
 
-boolean createProduct(Product product);
+Product createProduct(Product product);
 List<Product> getAllProducts() throws NoRecordsFoundException;
 List<Product> getProductsAbovePrice(int price) throws NoRecordsFoundException;
 List<Product> getProductsBelowPrice(int price) throws NoRecordsFoundException;
