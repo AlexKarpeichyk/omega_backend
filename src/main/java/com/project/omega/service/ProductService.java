@@ -15,6 +15,6 @@ List<Product> getProductsBelowPrice(int price) throws NoRecordsFoundException;
 List<Product> getProductsEqualPrice(int price) throws NoRecordsFoundException;
 Product getProductById(Long id) throws ProductNotFoundException;
 List<Product> getProductsBySearchQuery(String name) throws NoRecordsFoundException;
-Product updateProductById(Long id, Product newProduct);
-Product deleteProductById(Long id);
+Product updateProductById(Long id, Product newProduct) throws Exception;
+Product deleteProductById(Long id) throws ProductNotFoundException;
 }
