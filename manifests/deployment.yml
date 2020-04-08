@@ -1,16 +1,17 @@
 apiVersion : apps/v1beta1
 kind: Deployment
 metadata:
-  name: test 
+  name: omega 
+
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: test 
+        app: omega 
     spec:
       containers:
-        - name: test 
-          image: omegacontainerregister.azurecr.io/test
+        - name: omega 
+          image: omegacontainerregister.azurecr.io/omega
           ports:
           - containerPort: 5000
